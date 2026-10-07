@@ -1,0 +1,17 @@
+# AI normal-study access
+Approved: remove global request-count ceilings; preserve token safety ceilings, prompts/models/auth/SEO/files. Add shared 12/minute per-user burst gate with hourly protection.
+Baseline: same account passed 3 quizzes, 3 flash generations, 2 insights. No daily user quota exists; credit depletion observed in historical logs.
+Completed: global request-count caps ignored even if legacy env specifies 1; token ceilings retained. Shared database-backed burst limit 12/minute across AI features, hourly limits retained, HTTP 429 retry metadata/message added.
+Live authenticated tests: quiz x2, flashcards x2, real TXT upload/extraction/notes/flashcards/quiz x2, insights x2 all PASS for same account. Anonymous access rejected for all four; 21MB file blocked; live burst request blocked HTTP 429. Test account burst state restored after abuse check.
+Gates: typecheck 0 errors; 38/38 tests; build exit 0. SHA checks: sitemap, robots, prompts/AI implementation, model gateway untouched. Temporary live-test scripts removed. Not published.
+
+# Upload-to-notes refinement
+Approved scope: PDF/text/DOCX/PPTX extraction + upload-only rich-text generation; existing editor retained, no OCR.
+Implemented: PDF positioned rows/columns and adjacent superscript/subscript cues; Office XML tables/OMML math; ZIP/XML safety bounds. Structured upload-only generator emits escaped editor HTML, native editable tables and inline/block data-latex nodes; KaTeX validation and bounded retry. DOCX/PPTX allowlist + picker support. Existing upload flashcard/quiz branch retained.
+Live S3/AI fixtures: PDF comparison table, native Word math, PPTX table+math, prose TXT, Word table all passed; extra PDF superscript fixture passed. All six opened in existing editor, no raw markup; editable table row and math edits + undo/HTML round-trip passed. Linked Word upload still created flashcards and quiz.
+Final gates: typecheck 0 errors, 49/49 tests, build exit 0. Checksums confirm auth, model gateway, shared AI generators/limits/budget, editor/math renderer, robots/sitemap unchanged. Dependencies: fflate + @xmldom/xmldom added for Office extraction; lockfile updated. Temporary test scripts removed. Test fixture notes remain in seeded test account. Not published.
+
+# Insights redacted upstream diagnostics
+Approved scope: capture original upstream HTTP status/structured codes before existing translation; no quota/auth/model/prompt/upload/SEO/UI changes or broad publishing.
+Implemented: Insights generation (including single/dashboard path) and insight follow-up model calls wrapped inside existing metering. Failure-only server event [insights.ai.upstream_failure] retains distinct gateway/cause/provider metadata. Explicit code allowlist; unknown codes marked redacted. No error/message/stack/request/headers/URL/user identifiers/body logged; JSON parsing and nested traversal bounded, getters ignored. Same original error rethrown even if logging fails; current credits translation unchanged.
+Validation: 58/58 tests, 209 assertions across 8 files; app typecheck and root build exit 0. Same authenticated account generated two batches of three saved insights in preview and two in production. Production verifies existing deployed success only: diagnostics not published. Snapshot hashes confirm every pre-existing src/public file unchanged except ai.ts; diff confines ai.ts to import and wrappers around the two Insights model calls. Added helper and regression tests only. No UI changes.

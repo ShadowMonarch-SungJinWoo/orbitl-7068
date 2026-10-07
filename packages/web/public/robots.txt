@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /$
+Allow: /reviews
+Allow: /login
+Allow: /privacy
+Allow: /terms
+
+# Everything behind the sign-in wall is user data, not content.
+Disallow: /dashboard
+Disallow: /graph
+Disallow: /subjects
+Disallow: /notes
+Disallow: /flashcards
+Disallow: /quizzes
+Disallow: /assignments
+Disallow: /focus
+Disallow: /tutor
+Disallow: /insights
+Disallow: /groups
+Disallow: /achievements
+Disallow: /settings
+Disallow: /reset-password
+Disallow: /forgot-password
+Disallow: /api/
+
+Sitemap: __SITE_URL__/sitemap.xml

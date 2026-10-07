@@ -1,0 +1,191 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+  --color-error: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+}
+
+:root {
+  --radius: 16px;
+  /* Light mode */
+  --background: #f8fafc;
+  --foreground: #0b1220;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #0b1220;
+  --popover: #ffffff;
+  --popover-foreground: #0b1220;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #4f46e5;
+  --secondary-foreground: #ffffff;
+  --accent: #06b6d4;
+  --accent-foreground: #ffffff;
+  --muted: #eef2f7;
+  --muted-foreground: #64748b;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --destructive: #ef4444;
+  --border: rgba(15, 23, 42, 0.08);
+  --input: rgba(15, 23, 42, 0.1);
+  --ring: #06b6d4;
+}
+
+.dark {
+  --background: #080b1a;
+  --foreground: #f9fafb;
+  --surface: #0e1226;
+  --card: #141a33;
+  --card-foreground: #f9fafb;
+  --popover: #11162c;
+  --popover-foreground: #f9fafb;
+  --primary: #2563eb;
+  --primary-foreground: #ffffff;
+  --secondary: #4f46e5;
+  --secondary-foreground: #ffffff;
+  --accent: #06b6d4;
+  --accent-foreground: #06202a;
+  --muted: #161c34;
+  --muted-foreground: #98a2c0;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --destructive: #ef4444;
+  --border: rgba(150, 160, 220, 0.12);
+  --input: rgba(150, 160, 220, 0.14);
+  --ring: #06b6d4;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--primary) 35%, transparent);
+  }
+}
+
+/* Scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+*::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
+
+/* Utilities */
+.gradient-brand { background-image: linear-gradient(135deg, #2563eb, #4f46e5 55%, #06b6d4); }
+.text-gradient {
+  background-image: linear-gradient(135deg, #60a5fa, #818cf8 50%, #22d3ee);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.glass {
+  background: color-mix(in oklab, var(--surface) 72%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.card-surface {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.shadow-soft { box-shadow: 0 1px 2px rgba(0,0,0,.25), 0 8px 30px rgba(0,0,0,.18); }
+.dark .shadow-soft { box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 40px rgba(0,0,0,.35); }
+.grid-bg {
+  background-image:
+    radial-gradient(circle at 15% 0%, color-mix(in oklab, #2563eb 14%, transparent), transparent 45%),
+    radial-gradient(circle at 85% 20%, color-mix(in oklab, #7c3aed 10%, transparent), transparent 40%);
+}
+.dark .grid-bg {
+  background-image:
+    radial-gradient(60rem 34rem at 12% -6%, rgba(16, 26, 58, 0.95), transparent 62%),
+    radial-gradient(52rem 32rem at 88% 4%, rgba(23, 16, 45, 0.92), transparent 58%);
+}
+
+/* Full-page ambience: midnight navy base + indigo/violet glow + faint grid */
+.app-bg {
+  position: relative;
+  background-color: var(--background);
+  isolation: isolate;
+}
+.app-bg::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 15% 0%, color-mix(in oklab, #2563eb 12%, transparent), transparent 45%),
+    radial-gradient(circle at 85% 18%, color-mix(in oklab, #7c3aed 9%, transparent), transparent 42%);
+}
+.dark .app-bg::before {
+  background-image:
+    linear-gradient(to right, rgba(160, 170, 235, 0.038) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(160, 170, 235, 0.038) 1px, transparent 1px),
+    radial-gradient(70rem 44rem at 8% -12%, rgba(16, 26, 58, 0.9), transparent 62%),
+    radial-gradient(62rem 40rem at 92% 2%, rgba(23, 16, 45, 0.9), transparent 58%),
+    radial-gradient(60rem 40rem at 50% 112%, rgba(20, 18, 52, 0.75), transparent 62%),
+    linear-gradient(160deg, #0a0e20 0%, #080b1a 45%, #0b0a1c 100%);
+  background-size: 56px 56px, 56px 56px, auto, auto, auto, auto;
+  background-repeat: repeat, repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  -webkit-mask-image: linear-gradient(#000, #000);
+}
+
+@keyframes shimmer { 100% { transform: translateX(100%); } }
+.skeleton {
+  position: relative; overflow: hidden;
+  background: color-mix(in oklab, var(--muted-foreground) 12%, transparent);
+  border-radius: 10px;
+}
+.skeleton::after {
+  content: ""; position: absolute; inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--muted-foreground) 14%, transparent), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes float-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.animate-float-in { animation: float-in .5s cubic-bezier(.22,1,.36,1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}
+
+/* React Flow theming */
+.react-flow__attribution { display: none !important; }
+.react-flow__edge-path { stroke-width: 1.5; }
